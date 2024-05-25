@@ -6,9 +6,9 @@ const musicRouter = require("./routes/musicRoutes")
 const app = express()
 
 // 1 MIDDLEWARES
-
 app.use(morgan("dev"))
 app.use(express.json())
+// app.use(express.static(`${__dirname}/public}`))
 
 app.use((req, res, next) => {
   console.log("hello from middleware")
@@ -21,7 +21,6 @@ app.use((req, res, next) => {
 })
 
 //3) ROUTES
-
 app.use("/api/v1/musics", musicRouter)
 
 module.exports = app
