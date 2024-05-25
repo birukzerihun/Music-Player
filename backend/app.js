@@ -69,6 +69,14 @@ app.patch("/api/v1/musics/:id", (req, res) => {
     .json({ status: "success", data: { music: "<Updated Music>" } })
 })
 
+app.delete("/api/v1/musics/:id", (req, res) => {
+  if (req.params.id * 1 > musics.length) {
+    return res.status(404).json({ status: "failed", message: "Invalid id" })
+  }
+
+  res.status(204).json({ status: "success", data: null })
+})
+
 const port = 3000
 
 app.listen(port, () => {
