@@ -40,5 +40,9 @@
     "artist": "mettalica",
     "album": "we ware there",
     "genre": "hard rock"
-  }
+  },
+  { "id": 7, "title": "Test Music", "artist": "Test Artist" },
+  { "id": 8, "title": "Test Music", "artist": "Test Artist" },
+  { "id": 9, "title": "Test Music", "artist": "Test Artist" },
+  { "id": 10, "title": "Test Music", "artist": "Test Artist" }
 ]

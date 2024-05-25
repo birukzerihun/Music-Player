@@ -2,6 +2,8 @@ const express = require("express")
 const fs = require("fs")
 const app = express()
 
+app.use(express.json())
+
 // app.get("/", (req, res) => {
 //   res
 //     .status(200)
@@ -20,6 +22,22 @@ app.get("/api/v1/musics", (req, res) => {
   res
     .status(200)
     .json({ status: "success", results: musics.length, data: { musics } })
+})
+
+app.post("/api/v1/musics", (req, res) => {
+  // console.log(req.body)
+  const newId = musics[musics.length - 1].id + 1
+  const newMusic = Object.assign({ id: newId }, req.body)
+
+  musics.push(newMusic)
+
+  fs.writeFile(
+    `${__dirname}/dev-data/musics-sample.json`,
+    JSON.stringify(musics),
+    (err) => {
+      res.status(201).json({ status: "success", data: { music: newMusic } })
+    }
+  )
 })
 
 const port = 3000
