@@ -24,6 +24,25 @@ app.get("/api/v1/musics", (req, res) => {
     .json({ status: "success", results: musics.length, data: { musics } })
 })
 
+app.get("/api/v1/musics/:id", (req, res) => {
+  const id = req.params.id * 1
+
+  const music = musics.find((el) => el.id === id)
+
+  // if (id > musics.length) {
+  if (!music) {
+    return res.status(404).json({ status: "fail", message: "Invalid Id" })
+  }
+
+  res.status(200).json({
+    status: "success",
+    data: {
+      music,
+    },
+    // results: musics.length, data: { musics }
+  })
+})
+
 app.post("/api/v1/musics", (req, res) => {
   // console.log(req.body)
   const newId = musics[musics.length - 1].id + 1
