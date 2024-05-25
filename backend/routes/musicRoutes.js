@@ -9,7 +9,7 @@ router.param("id", musicController.checkId)
 router
   .route("/")
   .get(musicController.getAllMusics)
-  .post(musicController.createMusic)
+  .post(musicController.checkBody, musicController.createMusic)
 
 router
   .route("/:id")

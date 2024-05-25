@@ -6,7 +6,16 @@ const musics = JSON.parse(
 exports.checkId = (req, res, next, val) => {
   console.log(`the id is${val}`)
   if (req.params.id * 1 > musics.length) {
-    return res.status(404).json({ status: "failed", message: "Invalid id" })
+    return res.status(404).json({ status: "fail", message: "Invalid id" })
+  }
+  next()
+}
+
+exports.checkBody = (req, res, next) => {
+  if (!req.body.title || !req.body.artist || !req.body.genre) {
+    return res
+      .status(400)
+      .json({ status: "fail", message: "Missing title, artist or genre" })
   }
   next()
 }
