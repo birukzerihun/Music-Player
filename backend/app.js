@@ -1,7 +1,12 @@
-const express = require("express")
 const fs = require("fs")
+const express = require("express")
+const morgan = require("morgan")
+
 const app = express()
 
+// 1 MIDDLEWARES
+
+app.use(morgan("dev"))
 app.use(express.json())
 
 app.use((req, res, next) => {
@@ -17,6 +22,8 @@ app.use((req, res, next) => {
 const musics = JSON.parse(
   fs.readFileSync(`${__dirname}/dev-data/musics-sample.json`)
 )
+
+//2)  ROUTE HANDLERS
 
 const getAllMusics = (req, res) => {
   console.log(req.requastTime)
@@ -81,6 +88,8 @@ const deleteMusic = (req, res) => {
   res.status(204).json({ status: "success", data: null })
 }
 
+//3) ROUTES
+
 app.route("/api/v1/musics").get(getAllMusics).post(createMusic)
 
 app
@@ -88,6 +97,8 @@ app
   .get(getMusic)
   .patch(updateMusic)
   .delete(deleteMusic)
+
+//4) START SERVER
 
 const port = 3000
 
