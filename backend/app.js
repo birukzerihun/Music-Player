@@ -59,6 +59,16 @@ app.post("/api/v1/musics", (req, res) => {
   )
 })
 
+app.patch("/api/v1/musics/:id", (req, res) => {
+  if (req.params.id * 1 > musics.length) {
+    return res.status(404).json({ status: "failed", message: "Invalid id" })
+  }
+
+  res
+    .status(200)
+    .json({ status: "success", data: { music: "<Updated Music>" } })
+})
+
 const port = 3000
 
 app.listen(port, () => {
