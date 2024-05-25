@@ -4,27 +4,17 @@ const app = express()
 
 app.use(express.json())
 
-// app.get("/", (req, res) => {
-//   res
-//     .status(200)
-//     .json({ message: "hello from the server side", app: "Music Player" })
-// })
-
-// app.post("/", (req, res) => {
-//   res.send("you can post to this end point")
-// })
-
 const musics = JSON.parse(
   fs.readFileSync(`${__dirname}/dev-data/musics-sample.json`)
 )
 
-app.get("/api/v1/musics", (req, res) => {
+const getAllMusics = (req, res) => {
   res
     .status(200)
     .json({ status: "success", results: musics.length, data: { musics } })
-})
+}
 
-app.get("/api/v1/musics/:id", (req, res) => {
+const getMusic = (req, res) => {
   const id = req.params.id * 1
 
   const music = musics.find((el) => el.id === id)
@@ -41,9 +31,9 @@ app.get("/api/v1/musics/:id", (req, res) => {
     },
     // results: musics.length, data: { musics }
   })
-})
+}
 
-app.post("/api/v1/musics", (req, res) => {
+const createMusic = (req, res) => {
   // console.log(req.body)
   const newId = musics[musics.length - 1].id + 1
   const newMusic = Object.assign({ id: newId }, req.body)
@@ -57,9 +47,9 @@ app.post("/api/v1/musics", (req, res) => {
       res.status(201).json({ status: "success", data: { music: newMusic } })
     }
   )
-})
+}
 
-app.patch("/api/v1/musics/:id", (req, res) => {
+const updateMusic = (req, res) => {
   if (req.params.id * 1 > musics.length) {
     return res.status(404).json({ status: "failed", message: "Invalid id" })
   }
@@ -67,15 +57,33 @@ app.patch("/api/v1/musics/:id", (req, res) => {
   res
     .status(200)
     .json({ status: "success", data: { music: "<Updated Music>" } })
-})
+}
 
-app.delete("/api/v1/musics/:id", (req, res) => {
+const deleteMusic = (req, res) => {
   if (req.params.id * 1 > musics.length) {
     return res.status(404).json({ status: "failed", message: "Invalid id" })
   }
 
   res.status(204).json({ status: "success", data: null })
-})
+}
+
+// app.get("/api/v1/musics", getAllMusics)
+
+// app.post("/api/v1/musics", createMusic)
+
+// app.get("/api/v1/musics/:id", getMusic)
+
+// app.patch("/api/v1/musics/:id", updateMusic)
+
+// app.delete("/api/v1/musics/:id", deleteMusic)
+
+app.route("/api/v1/musics").get(getAllMusics).post(createMusic)
+
+app
+  .route("/api/v1/musics/:id")
+  .get(getMusic)
+  .patch(updateMusic)
+  .delete(deleteMusic)
 
 const port = 3000
 
