@@ -90,13 +90,11 @@ const deleteMusic = (req, res) => {
 
 //3) ROUTES
 
-app.route("/api/v1/musics").get(getAllMusics).post(createMusic)
+const musicRouter = express.Router()
+app.use("/api/v1/musics", musicRouter)
+musicRouter.route("/").get(getAllMusics).post(createMusic)
 
-app
-  .route("/api/v1/musics/:id")
-  .get(getMusic)
-  .patch(updateMusic)
-  .delete(deleteMusic)
+musicRouter.route("/:id").get(getMusic).patch(updateMusic).delete(deleteMusic)
 
 //4) START SERVER
 
