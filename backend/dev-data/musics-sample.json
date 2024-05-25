@@ -1,0 +1,44 @@
+[
+  {
+    "id": 1,
+    "title": "story of my life",
+    "artist": "one direction",
+    "album": "glad to be",
+    "genre": "pop"
+  },
+  {
+    "id": 2,
+    "title": "run",
+    "artist": "paul macartny",
+    "album": "sad people",
+    "genre": "rock"
+  },
+  {
+    "id": 3,
+    "title": "party",
+    "artist": "pop smoke",
+    "album": "hood",
+    "genre": "rap"
+  },
+  {
+    "id": 4,
+    "title": "yellow",
+    "artist": "cold play",
+    "album": "paradise",
+    "genre": "rock"
+  },
+  {
+    "id": 5,
+    "title": "marriage",
+    "artist": "bruno mars",
+    "album": "happiest year",
+    "genre": "pop"
+  },
+  {
+    "id": 6,
+    "title": "heaven",
+    "artist": "mettalica",
+    "album": "we ware there",
+    "genre": "hard rock"
+  }
+]
