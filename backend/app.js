@@ -4,14 +4,28 @@ const app = express()
 
 app.use(express.json())
 
+app.use((req, res, next) => {
+  console.log("hello from middleware")
+  next()
+})
+
+app.use((req, res, next) => {
+  req.requastTime = new Date().toISOString()
+  next()
+})
+
 const musics = JSON.parse(
   fs.readFileSync(`${__dirname}/dev-data/musics-sample.json`)
 )
 
 const getAllMusics = (req, res) => {
-  res
-    .status(200)
-    .json({ status: "success", results: musics.length, data: { musics } })
+  console.log(req.requastTime)
+  res.status(200).json({
+    status: "success",
+    requestedAt: req.requastTime,
+    results: musics.length,
+    data: { musics },
+  })
 }
 
 const getMusic = (req, res) => {
@@ -66,16 +80,6 @@ const deleteMusic = (req, res) => {
 
   res.status(204).json({ status: "success", data: null })
 }
-
-// app.get("/api/v1/musics", getAllMusics)
-
-// app.post("/api/v1/musics", createMusic)
-
-// app.get("/api/v1/musics/:id", getMusic)
-
-// app.patch("/api/v1/musics/:id", updateMusic)
-
-// app.delete("/api/v1/musics/:id", deleteMusic)
 
 app.route("/api/v1/musics").get(getAllMusics).post(createMusic)
 
