@@ -4,6 +4,8 @@ const musicController = require("../controllers/musicController")
 const express = require("express")
 
 const router = express.Router()
+
+router.param("id", musicController.checkId)
 router
   .route("/")
   .get(musicController.getAllMusics)

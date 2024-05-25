@@ -2,6 +2,14 @@ const fs = require("fs")
 const musics = JSON.parse(
   fs.readFileSync(`${__dirname}/../dev-data/musics-sample.json`)
 )
+
+exports.checkId = (req, res, next, val) => {
+  console.log(`the id is${val}`)
+  if (req.params.id * 1 > musics.length) {
+    return res.status(404).json({ status: "failed", message: "Invalid id" })
+  }
+  next()
+}
 exports.getAllMusics = (req, res) => {
   console.log(req.requastTime)
   res.status(200).json({
@@ -48,19 +56,11 @@ exports.createMusic = (req, res) => {
 }
 
 exports.updateMusic = (req, res) => {
-  if (req.params.id * 1 > musics.length) {
-    return res.status(404).json({ status: "failed", message: "Invalid id" })
-  }
-
   res
     .status(200)
     .json({ status: "success", data: { music: "<Updated Music>" } })
 }
 
 exports.deleteMusic = (req, res) => {
-  if (req.params.id * 1 > musics.length) {
-    return res.status(404).json({ status: "failed", message: "Invalid id" })
-  }
-
   res.status(204).json({ status: "success", data: null })
 }
