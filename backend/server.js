@@ -27,6 +27,17 @@ const musicSchema = new mongoose.Schema({
 
 const Music = mongoose.model('Music', musicSchema);
 
+const testMusic = new Music({
+  title: 'best',
+  artist: 'best',
+  genre: 'best',
+});
+
+testMusic
+  .save()
+  .then((doc) => console.log(doc))
+  .catch((err) => console.log(`ERROR:` + err));
+
 const port = process.env.PORT || 3000;
 
 app.listen(port, () => {
