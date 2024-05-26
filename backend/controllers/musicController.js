@@ -26,11 +26,18 @@ const Music = require('../models/musicModel');
 exports.getAllMusics = async (req, res) => {
   try {
     //BUILD QUERY
+    //filtering
     const queryObj = { ...req.query };
     const excludedFields = ['page', 'sort', 'limit', 'fields'];
     excludedFields.forEach((el) => delete queryObj[el]);
     // console.log(req.query, queryObj);
-    const query = Music.find(queryObj);
+
+    //advanced filtering
+    let queryStr = JSON.stringify(queryObj);
+    queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, (match) => `$${match}`);
+    console.log(JSON.parse(queryStr));
+
+    const query = Music.find(JSON.parse(queryStr));
     // const query =  Music.find().where('genre').equals('rap');
 
     //EXCUTE QUERY
@@ -63,7 +70,6 @@ exports.getMusic = async (req, res) => {
   }
 
   // const music = musics.find((el) => el.id === id);
-
   // // if (id > musics.length) {
   // if (!music) {
   //   return res.status(404).json({ status: 'fail', message: 'Invalid Id' });
