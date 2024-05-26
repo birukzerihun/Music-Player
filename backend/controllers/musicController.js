@@ -67,7 +67,7 @@ exports.createMusic = async (req, res) => {
       data: { music: newMusic },
     });
   } catch (err) {
-    res.status(400).json({ status: 'fail', message: 'Invalid Data Sent' });
+    res.status(400).json({ status: 'fail', message: err });
   }
 };
 
