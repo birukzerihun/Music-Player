@@ -25,7 +25,18 @@ const Music = require('../models/musicModel');
 
 exports.getAllMusics = async (req, res) => {
   try {
-    const musics = await Music.find();
+    //BUILD QUERY
+    const queryObj = { ...req.query };
+    const excludedFields = ['page', 'sort', 'limit', 'fields'];
+    excludedFields.forEach((el) => delete queryObj[el]);
+    // console.log(req.query, queryObj);
+    const query = Music.find(queryObj);
+    // const query =  Music.find().where('genre').equals('rap');
+
+    //EXCUTE QUERY
+    const tours = await query;
+
+    //SEND RESPONSE
     res.status(200).json({
       status: 'success',
       requestedAt: req.requastTime,
