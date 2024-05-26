@@ -23,18 +23,33 @@ const Music = require('../models/musicModel');
 //   next();
 // };
 
-exports.getAllMusics = (req, res) => {
-  console.log(req.requastTime);
-  res.status(200).json({
-    status: 'success',
-    requestedAt: req.requastTime,
-    // results: musics.length,
-    // data: { musics },
-  });
+exports.getAllMusics = async (req, res) => {
+  try {
+    const musics = await Music.find();
+    res.status(200).json({
+      status: 'success',
+      requestedAt: req.requastTime,
+      results: musics.length,
+      data: { musics },
+    });
+  } catch (err) {
+    res.status(400).json({ status: 'fail', message: err });
+  }
 };
 
-exports.getMusic = (req, res) => {
-  // const id = req.params.id * 1;
+exports.getMusic = async (req, res) => {
+  try {
+    const music = await Music.findById(req.params.id);
+    // Music.findOnd({_id: req.params.id})
+    res.status(200).json({
+      status: 'success',
+      data: {
+        music,
+      },
+    });
+  } catch (err) {
+    res.status(400).json({ status: 'fail', message: err });
+  }
 
   // const music = musics.find((el) => el.id === id);
 
@@ -42,14 +57,6 @@ exports.getMusic = (req, res) => {
   // if (!music) {
   //   return res.status(404).json({ status: 'fail', message: 'Invalid Id' });
   // }
-
-  res.status(200).json({
-    status: 'success',
-    // data: {
-    //   music,
-    // },
-    // results: musics.length, data: { musics }
-  });
 };
 
 exports.createMusic = async (req, res) => {
@@ -64,12 +71,23 @@ exports.createMusic = async (req, res) => {
   }
 };
 
-exports.updateMusic = (req, res) => {
-  res
-    .status(200)
-    .json({ status: 'success', data: { music: '<Updated Music>' } });
+exports.updateMusic = async (req, res) => {
+  try {
+    const music = await Music.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+      runValidators: true,
+    });
+    res.status(200).json({ status: 'success', data: { music } });
+  } catch (err) {
+    res.status(400).json({ status: 'fail', message: err });
+  }
 };
 
-exports.deleteMusic = (req, res) => {
-  res.status(204).json({ status: 'success', data: null });
+exports.deleteMusic = async (req, res) => {
+  try {
+    await Music.findByIdAndDelete(req.params.id);
+    res.status(204).json({ status: 'success', data: null });
+  } catch (error) {
+    res.status(404).json({ status: 'fail', message: err });
+  }
 };
