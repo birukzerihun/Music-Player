@@ -14,14 +14,15 @@ const Music = require('../models/musicModel');
 //   next();
 // };
 
-exports.checkBody = (req, res, next) => {
-  if (!req.body.title || !req.body.artist || !req.body.genre) {
-    return res
-      .status(400)
-      .json({ status: 'fail', message: 'Missing title, artist or genre' });
-  }
-  next();
-};
+// exports.checkBody = (req, res, next) => {
+//   if (!req.body.title || !req.body.artist || !req.body.genre) {
+//     return res
+//       .status(400)
+//       .json({ status: 'fail', message: 'Missing title, artist or genre' });
+//   }
+//   next();
+// };
+
 exports.getAllMusics = (req, res) => {
   console.log(req.requastTime);
   res.status(200).json({
@@ -51,11 +52,16 @@ exports.getMusic = (req, res) => {
   });
 };
 
-exports.createMusic = (req, res) => {
-  res.status(201).json({
-    status: 'success',
-    // data: { music: newMusic }
-  });
+exports.createMusic = async (req, res) => {
+  try {
+    const newMusic = await Music.create(req.body);
+    res.status(201).json({
+      status: 'success',
+      data: { music: newMusic },
+    });
+  } catch (err) {
+    res.status(400).json({ status: 'fail', message: 'Invalid Data Sent' });
+  }
 };
 
 exports.updateMusic = (req, res) => {
