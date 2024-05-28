@@ -3,36 +3,42 @@
     "title": "story of my life",
     "artist": "one direction",
     "album": "glad to be",
-    "genre": "pop"
+    "genre": "pop",
+    "ratingsAverage": 4.7
   },
   {
     "title": "run",
     "artist": "paul macartny",
     "album": "sad people",
-    "genre": "rock"
+    "genre": "rock",
+    "ratingsAverage": 4.6
   },
   {
     "title": "party",
     "artist": "pop smoke",
     "album": "hood",
-    "genre": "rap"
+    "genre": "rap",
+    "ratingsAverage": 4.5
   },
   {
     "title": "yellow",
     "artist": "cold play",
     "album": "paradise",
-    "genre": "rock"
+    "genre": "rock",
+    "ratingsAverage": 4.4
   },
   {
     "title": "marriage",
     "artist": "bruno mars",
     "album": "happiest year",
-    "genre": "pop"
+    "genre": "pop",
+    "ratingsAverage": 4.3
   },
   {
     "title": "heaven",
     "artist": "mettalica",
     "album": "we ware there",
-    "genre": "hard rock"
+    "genre": "hard rock",
+    "ratingsAverage": 4.2
   }
 ]
