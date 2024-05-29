@@ -6,7 +6,8 @@ const express = require('express');
 const router = express.Router();
 
 // router.param('id', musicController.checkId);
-router.route('/music-stats').get(musicController.getMusicStats);
+router.route('/genre-stats').get(musicController.genreStats);
+router.route('/artist-stats').get(musicController.artistStats);
 
 router
   .route('/')

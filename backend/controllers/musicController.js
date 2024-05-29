@@ -70,31 +70,42 @@ exports.deleteMusic = async (req, res) => {
   }
 };
 
-exports.getMusicStats = async (req, res) => {
+exports.genreStats = async (req, res) => {
   try {
-    const stats = await Music.aggregate([
-      // {
-      //   $match: { ratingsAverage: { $gte: 4.5 } },
-      // },
-
-      // {
-      //   $group: {
-      //     _id: null,
-      //     numMusic: { $sum: 1 },
-      //     // avgRating: { $avg: '$ratingsAverage' }
-      //   },
-      // },
-
-      // { $match: { genre: 'pop' } },
+    const genreStats = await Music.aggregate([
       {
-        $group: { _id: '$artist', numMusic: { $sum: 1 } },
+        $group: { _id: '$genre', numSongs: { $sum: 1 } },
       },
     ]);
 
     res.status(200).json({
       status: 'success',
       data: {
-        stats,
+        genreStats,
+      },
+    });
+  } catch (err) {
+    res.status(404).json({ status: 'fail', message: err });
+  }
+};
+
+exports.artistStats = async (req, res) => {
+  try {
+    const artistStats = await Music.aggregate([
+      {
+        $group: {
+          _id: '$artist',
+          numSongs: { $sum: 1 },
+        },
+      },
+
+      // { $count: 'Total' },
+    ]);
+
+    res.status(200).json({
+      status: 'success',
+      data: {
+        artistStats,
       },
     });
   } catch (err) {
