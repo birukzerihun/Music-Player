@@ -43,6 +43,17 @@ musicSchema.pre('save', function (next) {
   next();
 });
 
+// QUERY MIDDLEWARE
+musicSchema.pre(/^find/, function (next) {
+  this.start = Date.now();
+  next();
+});
+
+musicSchema.post(/^find/, function (docs, next) {
+  console.log(`Query took ${Date.now() - this.start} milliseconds!`);
+  next();
+});
+
 const Music = mongoose.model('Music', musicSchema);
 
 module.exports = Music;
