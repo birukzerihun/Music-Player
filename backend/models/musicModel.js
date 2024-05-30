@@ -1,32 +1,46 @@
 const mongoose = require('mongoose');
+const slugify = require('slugify');
 
-const musicSchema = new mongoose.Schema({
-  title: {
-    type: String,
-    required: [true, 'A music should have a title'],
-    trim: true,
+const musicSchema = new mongoose.Schema(
+  {
+    title: {
+      type: String,
+      required: [true, 'A music should have a title'],
+      trim: true,
+    },
+    slug: String,
+    artist: {
+      type: String,
+      required: [true, 'A music should have a artist'],
+      trim: true,
+    },
+    album: {
+      type: String,
+      trim: true,
+    },
+    genre: {
+      type: String,
+      required: [true, 'A music should have a genre'],
+    },
+    // imageCover: {
+    //   type: String,
+    // },
+    createdAt: {
+      type: Date,
+      default: Date.now(),
+      // select: false
+    },
   },
-  artist: {
-    type: String,
-    required: [true, 'A music should have a artist'],
-    trim: true,
+  {
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
   },
-  album: {
-    type: String,
-    trim: true,
-  },
-  genre: {
-    type: String,
-    required: [true, 'A music should have a genre'],
-  },
-  // imageCover: {
-  //   type: String,
-  // },
-  createdAt: {
-    type: Date,
-    default: Date.now(),
-    // select: false
-  },
+);
+
+// DOCUMENT MIDDLEWARE: runs before .save() and .create()
+musicSchema.pre('save', function (next) {
+  this.slug = slugify(this.title, { lower: true }); //adding new property
+  next();
 });
 
 const Music = mongoose.model('Music', musicSchema);
