@@ -7,6 +7,14 @@ const musicSchema = new mongoose.Schema(
       type: String,
       required: [true, 'A music should have a title'],
       trim: true,
+      maxlength: [
+        40,
+        'A Music name must have less or equal then 40 characters',
+      ],
+      minlength: [
+        10,
+        'A Music name must have more or equal then 10 characters',
+      ],
     },
     slug: String,
     artist: {
@@ -21,6 +29,10 @@ const musicSchema = new mongoose.Schema(
     genre: {
       type: String,
       required: [true, 'A music should have a genre'],
+      enum: {
+        values: ['pop', 'rap', 'rock', 'trap'],
+        message: 'Genre should be either pop, rap, rock, trap',
+      },
     },
     // imageCover: {
     //   type: String,
