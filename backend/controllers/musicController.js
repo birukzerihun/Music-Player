@@ -1,5 +1,6 @@
 const Music = require('../models/musicModel');
 const APIFeatures = require('../utils/apiFeatures');
+const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 
 exports.getAllMusics = catchAsync(async (req, res, next) => {
@@ -21,7 +22,10 @@ exports.getAllMusics = catchAsync(async (req, res, next) => {
 
 exports.getMusic = catchAsync(async (req, res, next) => {
   const music = await Music.findById(req.params.id);
-  // Music.findOnd({_id: req.params.id})
+
+  if (!music) {
+    return next(new AppError('Can`t find music with that ID', 404));
+  }
   res.status(200).json({
     status: 'success',
     data: {
@@ -43,11 +47,20 @@ exports.updateMusic = catchAsync(async (req, res, next) => {
     new: true,
     runValidators: true,
   });
+
+  if (!music) {
+    return next(new AppError('Can`t find music with that ID', 404));
+  }
+
   res.status(200).json({ status: 'success', data: { music } });
 });
 
 exports.deleteMusic = catchAsync(async (req, res) => {
-  await Music.findByIdAndDelete(req.params.id);
+  const music = await Music.findByIdAndDelete(req.params.id);
+
+  if (!music) {
+    return next(new AppError('Can`t find music with that ID', 404));
+  }
   res.status(204).json({ status: 'success', data: null });
 });
 
